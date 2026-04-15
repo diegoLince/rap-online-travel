@@ -1,0 +1,97 @@
+managed;
+strict ( 2 );
+
+define behavior for ZI_TRAVEL_DCR implementation in class zbp_i_travel_dcr unique//alias <alias_name>
+persistent table ztravel_dcr
+lock master
+authorization master ( instance )
+early numbering
+{
+  field( readonly ) TravelId;
+  create;
+  update;
+  delete;
+  association _Booking{ create; }
+
+  //Tipo
+  //Action
+  //Nome da nossa action
+  //Cardinalidade
+  factory action copia [1];
+
+  //Mapeamento dos campos, precisa ter isso feito para a crção de um novo registro
+  mapping for ztravel_dcr{
+    TravelId      = travel_id;
+    AgencyId      = agency_id;
+    CustomerId    = customer_id;
+    BeginDate     = begin_date;
+    EndDate       = end_date;
+    BookingFee    = booking_fee;
+    TotalPrice    = total_price;
+    CurrencyCode  = currency_code;
+    Description   = description;
+    OverallStatus = overall_status;
+    CreatedBy     = created_by;
+    CreatedAt     = created_at;
+    LastChangedBy = last_changed_by;
+    LastChangedAt = last_changed_at;
+  }
+
+}
+
+define behavior for ZI_BOOKING_DCR implementation in class zbp_i_booking_dcr unique //alias <alias_name>
+persistent table zbooking_dcr
+lock dependent by _Travel
+authorization dependent by _Travel
+early numbering
+//etag master <field_name>
+{
+
+  field( readonly ) BookingId;
+  update;
+  delete;
+  field ( readonly ) TravelId;
+  association _Travel;
+  association _BookingSup{ create; }
+
+  //Mapeamento dos campos com base na tabela, precisa ter isso feito para a crção de um novo registro
+  mapping for zbooking_dcr{
+    TravelId      = travel_id;
+    BookingId     = booking_id;
+    BookingDate   = booking_date;
+    CustomerId    = customer_id;
+    CarrierId     = carrier_id;
+    ConnectionId  = connection_id;
+    FlightDate    = flight_date;
+    FlightPrice   = flight_price;
+    CurrencyCode  = currency_code;
+    BookingStatus = booking_status;
+    LastChangedAt = last_changed_at;
+  }
+
+}
+
+define behavior for ZI_BOOKING_SUP implementation in class zbp_i_booking_sup_dcr unique //alias <alias_name>
+persistent table zbooking_sup_dcr
+lock dependent by _Travel
+authorization dependent by _Travel
+early numbering
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) BookingId, TravelId, BookingSupplementId;
+  association _Travel;
+  association _Booking;
+
+  //Mapeamento dos campos entre a CDS e a Tabela
+  mapping for zbooking_sup_dcr{
+    TravelId            = travel_id;
+    BookingId           = booking_id;
+    BookingSupplementId = booking_supplement_id;
+    SupplementId        = supplement_id;
+    Price               = price;
+    CurrencyCode        = currency_code;
+  }
+
+}

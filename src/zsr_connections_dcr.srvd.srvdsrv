@@ -1,0 +1,6 @@
+@EndUserText.label: 'Conexões'
+define service ZSR_CONNECTIONS_DCR {
+  expose ZI_CONNECTION_DCR as Connection;
+  expose ZI_FLIGHT_DCR     as Flight;
+  expose ZI_CARRIER_DCR    as Carrier;
+}

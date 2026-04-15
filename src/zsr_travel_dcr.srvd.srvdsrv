@@ -1,0 +1,6 @@
+@EndUserText.label: 'Service Definition for Travel'
+define service ZSR_TRAVEL_DCR {
+  expose ZC_TRAVEL_DCR;
+  expose ZC_BOOKING_DCR;
+  expose ZC_BOOKING_SUP_DCR;
+}

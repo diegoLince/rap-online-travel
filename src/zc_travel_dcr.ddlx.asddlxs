@@ -1,0 +1,81 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: { typeName: 'Travel',
+                  typeImageUrl: 'Travels',
+                  title: { type: #STANDARD, value: 'TravelId' } }
+annotate entity ZC_TRAVEL_DCR
+    with 
+{   
+    @UI.facet: [{
+      id: 'Travel',
+          purpose: #STANDARD,
+          position: 10,
+          label: 'Travel',
+          type: #IDENTIFICATION_REFERENCE
+      },
+      {
+          id: 'Booking',
+          purpose: #STANDARD,
+          position: 20,
+          label: 'Booking',
+          type: #LINEITEM_REFERENCE,   //Esse é o line item que aparece dentro da object page do Travel
+          targetElement: '_Booking'
+      }]
+    
+    @Consumption.valueHelpDefinition: [{     //Ajuda de pesquisa que foi criado no campo para aparecer o match code bonitinho
+      entity: {
+          name: 'ZI_TRAVEL_DCR',
+          element: 'TravelId'
+      }
+    }] 
+    @UI: { lineItem:       [{ position: 10 }, 
+         { type: #FOR_ACTION, dataAction: 'copia', label: 'Copiar Travel', position: 20 }], //Aqui apontamos o campo chave na action 'Copia'
+           identification: [{ position: 10 }], 
+           selectionField: [{ position: 10 }]}
+    TravelId;
+    
+    @Consumption.valueHelpDefinition: [{     //Ajuda de pesquisa que foi criado no campo para aparecer o match code bonitinho
+      entity: {
+          name: '/DMO/I_Agency',
+          element: 'AgencyID'
+      }
+    }]
+    @Search.defaultSearchElement: true       //Disponibiliza um campo onde pode digitar e dar enter que encontra, a mesma annotation pode ser usada em outros campos porem na tela sera somente um para tods os campos
+    @UI: { lineItem:       [{ position: 20 }],
+           identification: [{ position: 20 }],
+           selectionField: [{ position: 20 }]} 
+    AgencyId;
+    
+    @Consumption.valueHelpDefinition: [{     //Ajuda de pesquisa que foi criado no campo para aparecer o match code bonitinho
+      entity: {
+          name: '/DMO/I_Customer',
+          element: 'CustomerID'
+      }
+    }]
+    @UI: { lineItem:       [{ position: 30 }],
+           identification: [{ position: 30 }],
+           selectionField: [{ position: 30 }]}
+    CustomerId;
+    
+    @UI: { lineItem:       [{ position: 40 }],
+           identification: [{ position: 40 }]}
+    BeginDate;
+    
+    @UI: { lineItem:       [{ position: 50 }],
+           identification: [{ position: 50 }] }
+    EndDate;
+    
+    @UI: { lineItem:       [{ position: 60 }],
+           identification: [{ position: 60 }] }
+    CurrencyCode;
+    
+    @UI: { lineItem:       [{ position: 80 }],
+           identification: [{ position: 80 }] }
+    CreatedBy;
+    
+    @UI: { lineItem:       [{ position: 90 }],
+           identification: [{ position: 90 }] }
+    CreatedAt;
+
+    
+}
